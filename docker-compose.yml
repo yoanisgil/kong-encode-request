@@ -1,0 +1,10 @@
+echo-server:
+    image: yoanisgil/node-echo-server
+    links:
+        - kong
+kong:
+    image: mashape/kong:0.5.2
+    links:
+        - cassandra
+cassandra:
+    image: cassandra:2.1
