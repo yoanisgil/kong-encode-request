@@ -8,6 +8,8 @@ Testing Kong request encoding/decoding
     $ docker-compose run --rm shell ./init.sh
 
 
+**NOTE**: Make sure cassandra is up and running before running ```docker-compose up -d kong```
+
 ## Testing
     
 ### Direct call to echo-server
