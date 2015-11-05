@@ -1,10 +1,32 @@
 echo-server:
     image: yoanisgil/node-echo-server
-    links:
-        - kong
+    ports:
+        - 5000:5000
 kong:
     image: mashape/kong:0.5.2
     links:
         - cassandra
+        - echo-server
+        - nginx
+    ports:
+        - 8000:8000
+        - 8001:8001
 cassandra:
     image: cassandra:2.1
+nginx:
+    image: nginx:1.9
+    volumes:
+        - ./echo-server.conf:/etc/nginx/conf.d/echo-server.conf
+    links:
+        - echo-server
+shell:
+    image: python
+    links:
+        - echo-server
+        - kong
+        - nginx
+    volumes:
+        - ./init.sh:/init.sh
+    entrypoint: ["/bin/bash", "-c"]
+    stdin_open: true
+    tty: true
